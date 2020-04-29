@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Movies Project</string>
+    <string name="reg_user">Register User</string>
+    <string name="overview">Overview</string>
+
+    <string name="release_date">Release Date</string>
+    <string name="videos">Videos</string>
+    <string name="no_connection">Aww Snap.. Something Error, Click Icon to Reload</string>
+    <string name="no_videos">Aww Snap.. Looks Like No Video Available Yet</string>
+    <string name="refresh">Refresh</string>
+
+    <string name="phone_number">Phone Number</string>
+    <string name="password">Password</string>
+    <string name="logged_in">Logged In</string>
+
+    <string name="register_here">Sign Up</string>
+    <string name="by_mail">By Aditya Ismail</string>
+
+    <string name="welcome_to_movie_db">Welcome to The Movie DB</string>
+    <string name="subtitle">Where Movies Finds You..</string>
+    <string name="popular_title">What\'s Popular?</string>
+    <string name="view_more">View More</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="upcoming_movies">Upcoming Movies</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register_now">Register Now</string>
+
+    <string name="loading">Loading</string>
+    <string name="no_connection_list">aww Snap.. No Internet Connection</string>
+    <string name="reload">Reload</string>
+
+    <string name="no_data_found">No Data Found</string>
+
+    <string name="popular">Popular Movies</string>
+    <string name="top_rated_title">Top Rated Movies</string>
+    <string name="upcoming_movie_title">Upcoming Movies</string>
+
+    <string name="page_of">Page %s of %s</string>
+
+    <string name="error_login">No Data Found! Please Check Your Phone Number or Password</string>
+    <string name="welcome_message">Haloo %s! Hope You Have a Great Day</string>
+
+    <string name="msg_enter_phone_num">Please Enter Phone Number</string>
+    <string name="msg_phone_range">The Phone Number Range is Between 10-16 Digits</string>
+    <string name="msg_phone_valid_number">Please Use Valid Phone Number (08XXX..X)</string>
+    <string name="msg_enter_password">Please Enter Password</string>
+    <string name="msg_enter_name">Please Enter Full Name</string>
+    <string name="msg_enter_email">Please Enter Valid Email</string>
+    <string name="msg_minimum_password">Minimum 8 Character Passwords</string>
+    <string name="msg_confirm_password">Please Confirm Password</string>
+    <string name="msg_password_not_match">Password Not Match!</string>
+
+    <string name="registration_failed">Failed to do the Registration, Please Try Again</string>
+    <string name="registration_success">Registration Success! Please do The Login</string>
+    <string name="registration_title">Registration</string>
+    <string name="okay">OKE</string>
+    <string name="setting">Setting</string>
+    <string name="user_data">User\'s Data</string>
+    <string name="log_out">Log Out</string>
+    <string name="log_out_message">Are You Sure Want to Exit/Logout from the Movie Project?</string>
+    <string name="no_account">Don\'t Have Account?</string>
+</resources>

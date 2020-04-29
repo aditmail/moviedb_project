@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/viewPoster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray">
+
+            <ImageView
+                android:id="@+id/imgPoster"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:scaleType="fitXY"
+                tools:ignore="ContentDescription" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_Image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp">
+
+            <TextView
+                android:id="@+id/tvVoteAverage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|start|top"
+                android:layout_marginEnd="3dp"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_star_gold_xml"
+                android:drawablePadding="5dp"
+                android:gravity="center|start"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                tools:ignore="SmallSp"
+                tools:text="8.8" />
+
+            <TextView
+                android:id="@+id/tvVoteCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|start|top"
+                android:layout_marginStart="3dp"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_thumb_up_blue_xml"
+                android:drawablePadding="5dp"
+                android:gravity="start|center"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                tools:ignore="SmallSp"
+                tools:text="222" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:ellipsize="end"
+            android:gravity="center|start"
+            android:maxWidth="150dp"
+            android:maxLines="2"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            tools:text="Breaking Bad" />
+
+        <TextView
+            android:id="@+id/tvReleaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:ellipsize="end"
+            android:gravity="center|start"
+            android:maxLines="2"
+            android:padding="3dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textSize="12sp"
+            tools:text="Jul 24, 2019" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/viewMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_play_arrow_xml"
+            android:text="@string/view_more"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

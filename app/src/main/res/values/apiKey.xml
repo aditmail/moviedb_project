@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apiKey" translatable="false">Bearer
+        eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NzIxMjk2MWUzZWUxMjllYjc2Y2QwYTc0NTY5YzUyMSIsInN1YiI6IjVlOWZkNjBiMDE3NTdmMDAxZWQxMDJkNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hbgeczGhqoXkHiany-XUcj6pHf7B50DPajN0dzZVamk</string>
+    <string name="apiAuth" translatable="false">Authorization</string>
+    <string name="apiKeyV3" translatable="false">57212961e3ee129eb76cd0a74569c521</string>
+    <string name="imagePath" translatable="false">https://image.tmdb.org/t/p/original/</string>
+</resources>
