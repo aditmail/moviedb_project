@@ -81,6 +81,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     private UpcomingAdapter adapterUpcoming;
 
     private int currentPage = 1;
+    private boolean isLoggedIn = false;
 
     @Override
     protected MainPresenter createPresenter() {
@@ -114,13 +115,19 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             mSwipeRefresh.setRefreshing(false);
         });
 
+        isLoggedIn = presenter.isLoggedIn();
+
         callAPIMovies();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        if (isLoggedIn) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

@@ -127,4 +127,8 @@ public class MainPresenter extends BasePresenter<MainView> {
                 view.moveToIntent(intent);
         }
     }
+
+    public boolean isLoggedIn(){
+        return preferencesManager.isLoggedIn();
+    }
 }

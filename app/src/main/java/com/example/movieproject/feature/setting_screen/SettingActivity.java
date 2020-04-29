@@ -1,6 +1,7 @@
 package com.example.movieproject.feature.setting_screen;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,14 +80,14 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
                 builder.setCancelable(false)
                         .setMessage(message)
                         .setIcon(R.drawable.ic_logout_process_xml)
-                        .setPositiveButton(R.string.okay, (dialogInterface, i) -> {
+                        .setPositiveButton(R.string.yes, (dialogInterface, i) -> {
                             dialogInterface.dismiss();
                             presenter.logout();
                         })
-                        .setOnCancelListener(dialogInterface -> {
+                        .setNegativeButton(getString(R.string.no), (dialogInterface, i) -> {
                             dialogInterface.dismiss();
-                            presenter.logout();
-                        });
+                        })
+                        .setOnCancelListener(DialogInterface::dismiss);
                 break;
         }
         AlertDialog alertDialog = builder.create();

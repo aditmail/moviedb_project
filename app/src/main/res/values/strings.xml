@@ -62,4 +62,7 @@
     <string name="log_out">Log Out</string>
     <string name="log_out_message">Are You Sure Want to Exit/Logout from the Movie Project?</string>
     <string name="no_account">Don\'t Have Account?</string>
+    <string name="or">or</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
         android:layout_gravity="center"
+        android:gravity="center"
         android:padding="10dp">
 
         <ImageView
@@ -90,7 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="25dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -113,7 +114,47 @@
                 android:layout_marginStart="5dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"/>
-
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:gravity="center">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/or"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnNoLogin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:text="Continued without Login"
+            android:textSize="14sp"
+            android:textAllCaps="false"/>
     </LinearLayout>
 </ScrollView>

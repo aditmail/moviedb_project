@@ -34,6 +34,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     TextView tvRegister;
     @BindView(R.id.btnLogin)
     Button btnLogin;
+    @BindView(R.id.btnNoLogin)
+    Button btnNoLogin;
 
     @Override
     protected LoginPresenter createPresenter() {
@@ -50,6 +52,7 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
         }
 
         btnLogin.setOnClickListener(this);
+        btnNoLogin.setOnClickListener(this);
         tvRegister.setOnClickListener(this);
     }
 
@@ -111,6 +114,8 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             String password = etPassword.getText().toString().trim();
 
             presenter.validateData(phone, password, activity, MainActivity.class);
+        } else if (view.getId() == R.id.btnNoLogin) {
+            presenter.goToIntent(activity, MainActivity.class, true);
         }
     }
 }
