@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.movieproject.R;
+import com.example.movieproject.models.movies_review.MoviesReview;
 import com.example.movieproject.models.movies_video.MovieVideos;
 import com.example.movieproject.models.popular.Popular;
 import com.example.movieproject.models.top_rated.TopRated;
@@ -40,6 +41,11 @@ public class ApiClient {
     //Client for Movie Videos
     public void getMovieVideoList(String movieID, ApiStores apiStores, NetworkResponseListener<MovieVideos> listener) {
         apiStores.getVideoList(movieID, apiKey).enqueue(new NetworkResponse<>(listener));
+    }
+
+    //Client for Movie Review
+    public void getMovieReviewList(int page, String movieID, ApiStores apiStores, NetworkResponseListener<MoviesReview> listener) {
+        apiStores.getReviewList(movieID, apiKey, page).enqueue(new NetworkResponse<>(listener));
     }
 
     public void getTopsRated(ApiStores apiStores, NetworkResponseListener<ResponseBody> listener) {

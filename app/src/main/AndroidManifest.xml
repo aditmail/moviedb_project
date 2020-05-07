@@ -46,10 +46,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.detail_screen.DetailActivity"
+            android:name=".feature.detail_screen.activity_screen.DetailsActivity"
             android:configChanges="orientation"
+            android:parentActivityName=".feature.main_screen.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".feature.list_screen.ListMovieActivity"

@@ -1,4 +1,4 @@
-package com.example.movieproject.feature.detail_screen;
+package com.example.movieproject.feature.detail_screen.activity_screen;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,15 +18,18 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.movieproject.R;
-import com.example.movieproject.adapter.MovieVideosAdapter;
 import com.example.movieproject.base.mvp.MvpActivity;
-import com.example.movieproject.feature.detail_screen.contract.DetailPresenter;
-import com.example.movieproject.feature.detail_screen.contract.DetailView;
-import com.example.movieproject.models.movies_video.MovieVideos;
+import com.example.movieproject.feature.detail_screen.activity_screen.contract.DetailsPresenter;
+import com.example.movieproject.feature.detail_screen.activity_screen.contract.DetailsView;
 import com.example.movieproject.models.popular.ResultsItemPopular;
 import com.example.movieproject.models.top_rated.ResultsItemTopRated;
 import com.example.movieproject.models.upcoming.ResultsItemUpcoming;
-import com.example.movieproject.utils.NetworkUtil;
+import com.example.movieproject.utils.PaginationAdapterCallback;
+import com.example.movieproject.utils.TabViewPagerAdapter;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -35,22 +38,32 @@ import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-public class DetailActivity extends MvpActivity<DetailPresenter> implements DetailView, View.OnClickListener {
+public class DetailsActivity extends MvpActivity<DetailsPresenter> implements DetailsView,
+        View.OnClickListener, PaginationAdapterCallback {
 
-    @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout mSwipeRefresh;
+    //Toolbar
+    @BindView(R.id.toolbars)
+    Toolbar toolbar;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.appbar)
+    AppBarLayout appbar;
+
+    /*@BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefresh;*/
+    @BindView(R.id.nestedScroll)
+    NestedScrollView nestedSccroll;
+    @BindView(R.id.fabUpward)
+    FloatingActionButton fabUpward;
     @BindView(R.id.imgPosterBackground)
     ImageView imgPosterBackground;
     @BindView(R.id.imgPoster)
     ImageView imgPoster;
-    @BindView(R.id.btnBack)
-    ImageButton btnBack;
     @BindView(R.id.tvTitle)
     TextView tvTitle;
     @BindView(R.id.tvVoteAverage)
@@ -65,15 +78,11 @@ public class DetailActivity extends MvpActivity<DetailPresenter> implements Deta
     @BindView(R.id.tvPopularity)
     TextView tvPopularity;
 
-    //Videos
-    @BindView(R.id.tvErrorVideo)
-    TextView tvErrorVideo;
-    @BindView(R.id.tvNoVideo)
-    TextView tvNoVideo;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-    @BindView(R.id.rvMoviesList)
-    RecyclerView rvMoviesList;
+    //View Pager
+    @BindView(R.id.tabs)
+    TabLayout tabs_kantong;
+    @BindView(R.id.viewpager_content)
+    ViewPager viewpager_content;
 
     //Data Extras
     public static String extraModel = "MOVIE_MODEL";
@@ -87,13 +96,13 @@ public class DetailActivity extends MvpActivity<DetailPresenter> implements Deta
     private DecimalFormat decimalFormat;
     private SimpleDateFormat inputFormat, outputFormat;
 
-    private String movieID;
+    public static String movieID;
     private String title, overview, releaseDate, posterPath, posterBackgroundPath;
     private double voteAvg, voteCount, votePopularity;
 
     @Override
-    protected DetailPresenter createPresenter() {
-        return new DetailPresenter(this, getApplicationContext());
+    protected DetailsPresenter createPresenter() {
+        return new DetailsPresenter(this, getApplicationContext());
     }
 
     @Override
@@ -130,10 +139,50 @@ public class DetailActivity extends MvpActivity<DetailPresenter> implements Deta
             }
 
             generateDataMovie(modelMovie);
+            initCollapsingToolbar();
+
+            //Setting ViewPager
+            setupViewPager(viewpager_content);
+            tabs_kantong.setupWithViewPager(viewpager_content);
 
         } else {
             finish();
         }
+    }
+
+    private void initCollapsingToolbar() {
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        collapsingToolbarLayout.setTitle("");
+        appbar.setExpanded(true);
+        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle(title);
+                    isShow = true;
+                } else if (isShow) {
+                    collapsingToolbarLayout.setTitle("");
+                    isShow = false;
+                }
+            }
+        });
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        TabViewPagerAdapter adapter = new TabViewPagerAdapter(getSupportFragmentManager());
+        presenter.setupViewPager(viewPager, adapter);
     }
 
     private void generateDataMovie(int model) {
@@ -195,7 +244,7 @@ public class DetailActivity extends MvpActivity<DetailPresenter> implements Deta
     }
 
     private void initData() {
-        btnBack.setOnClickListener(this);
+        fabUpward.setOnClickListener(this);
 
         tvTitle.setText(title);
         tvOverview.setText(overview);
@@ -252,21 +301,9 @@ public class DetailActivity extends MvpActivity<DetailPresenter> implements Deta
                 })
                 .into(imgPosterBackground);
 
-        mSwipeRefresh.setOnRefreshListener(() -> {
-            callAPIVideo();
+        /*mSwipeRefresh.setOnRefreshListener(() -> {
             mSwipeRefresh.setRefreshing(false);
-        });
-    }
-
-    private void callAPIVideo() {
-        if (NetworkUtil.hasNetwork(this)) {
-            tvErrorVideo.setVisibility(View.GONE);
-            presenter.getMovieList(movieID);
-
-        } else {
-            progressBar.setVisibility(View.GONE);
-            tvErrorVideo.setVisibility(View.VISIBLE);
-        }
+        });*/
     }
 
     @Override
@@ -280,30 +317,20 @@ public class DetailActivity extends MvpActivity<DetailPresenter> implements Deta
     }
 
     @Override
-    public void showMessage(String message, int position) {
-        if (position == 1) {
-            progressBar.setVisibility(View.GONE);
-            tvErrorVideo.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void showListData(MovieVideos movieVideos) {
-        progressBar.setVisibility(View.GONE);
-
-        if (!movieVideos.getResults().toString().equalsIgnoreCase("[]")) {
-            rvMoviesList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            rvMoviesList.setItemAnimator(new DefaultItemAnimator());
-            rvMoviesList.setAdapter(new MovieVideosAdapter(movieVideos, this));
-        } else {
-            tvNoVideo.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btnBack) {
-            finish();
+        if (view.getId() == R.id.fabUpward) {
+            nestedSccroll.fullScroll(ScrollView.FOCUS_UP);
+            appbar.setExpanded(true);
         }
+    }
+
+    @Override
+    public void retryPageLoad() {
+
+    }
+
+    @Override
+    public void isNoConnection(boolean status) {
+
     }
 }

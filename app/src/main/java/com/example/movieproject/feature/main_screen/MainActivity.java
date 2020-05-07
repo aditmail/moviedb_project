@@ -16,7 +16,7 @@ import com.example.movieproject.adapter.PopularAdapter;
 import com.example.movieproject.adapter.TopRatedAdapter;
 import com.example.movieproject.adapter.UpcomingAdapter;
 import com.example.movieproject.base.mvp.MvpActivity;
-import com.example.movieproject.feature.detail_screen.DetailActivity;
+import com.example.movieproject.feature.detail_screen.activity_screen.DetailsActivity;
 import com.example.movieproject.feature.list_screen.ListMovieActivity;
 import com.example.movieproject.feature.main_screen.contract.MainPresenter;
 import com.example.movieproject.feature.main_screen.contract.MainView;
@@ -229,7 +229,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     @Override
                     public void onItemClick(View view, int position) {
                         presenter.getItemPopular(adapterPopular.getItem(position),
-                                MainActivity.this, DetailActivity.class);
+                                MainActivity.this, DetailsActivity.class);
                     }
 
                     @Override
@@ -244,7 +244,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     @Override
                     public void onItemClick(View view, int position) {
                         presenter.getItemTopRated(adapterTopRated.getItem(position),
-                                MainActivity.this, DetailActivity.class);
+                                MainActivity.this, DetailsActivity.class);
                     }
 
                     @Override
@@ -257,7 +257,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                     @Override
                     public void onItemClick(View view, int position) {
                         presenter.getItemUpcoming(adapterUpcoming.getItem(position),
-                                MainActivity.this, DetailActivity.class);
+                                MainActivity.this, DetailsActivity.class);
                     }
 
                     @Override

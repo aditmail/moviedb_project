@@ -15,7 +15,7 @@ import com.example.movieproject.adapter.PopularAdapter;
 import com.example.movieproject.adapter.TopRatedAdapter;
 import com.example.movieproject.adapter.UpcomingAdapter;
 import com.example.movieproject.base.mvp.MvpActivity;
-import com.example.movieproject.feature.detail_screen.DetailActivity;
+import com.example.movieproject.feature.detail_screen.activity_screen.DetailsActivity;
 import com.example.movieproject.feature.list_screen.contract.ListMoviePresenter;
 import com.example.movieproject.feature.list_screen.contract.ListMovieView;
 import com.example.movieproject.models.popular.Popular;
@@ -388,19 +388,19 @@ public class ListMovieActivity extends MvpActivity<ListMoviePresenter> implement
                     case 1: //For Popular Movie
                         if (!isNoConnection)
                             presenter.getItemPopular(adapterPopular.getItem(position),
-                                    ListMovieActivity.this, DetailActivity.class);
+                                    ListMovieActivity.this, DetailsActivity.class);
                         break;
 
                     case 2: //For Top Rated Movie
                         if (!isNoConnection)
                             presenter.getItemTopRated(adapterTopRated.getItem(position),
-                                    ListMovieActivity.this, DetailActivity.class);
+                                    ListMovieActivity.this, DetailsActivity.class);
                         break;
 
                     case 3: //For Upcoming Movie
                         if (!isNoConnection)
                             presenter.getItemUpcoming(adapterUpcoming.getItem(position),
-                                    ListMovieActivity.this, DetailActivity.class);
+                                    ListMovieActivity.this, DetailsActivity.class);
                         break;
                 }
             }

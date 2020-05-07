@@ -8,7 +8,7 @@ import com.example.movieproject.adapter.PopularAdapter;
 import com.example.movieproject.adapter.TopRatedAdapter;
 import com.example.movieproject.adapter.UpcomingAdapter;
 import com.example.movieproject.base.ui.BasePresenter;
-import com.example.movieproject.feature.detail_screen.DetailActivity;
+import com.example.movieproject.feature.detail_screen.activity_screen.DetailsActivity;
 import com.example.movieproject.models.popular.Popular;
 import com.example.movieproject.models.popular.ResultsItemPopular;
 import com.example.movieproject.models.top_rated.ResultsItemTopRated;
@@ -150,24 +150,24 @@ public class ListMoviePresenter extends BasePresenter<ListMovieView> {
 
     public void getItemPopular(ResultsItemPopular itemPopular, Activity activity, Class activityTo) {
         Intent intent = new Intent(activity, activityTo);
-        intent.putExtra(DetailActivity.extraModel, 1);
-        intent.putExtra(DetailActivity.extraMoviesData, itemPopular);
+        intent.putExtra(DetailsActivity.extraModel, 1);
+        intent.putExtra(DetailsActivity.extraMoviesData, itemPopular);
         if (view != null)
             view.moveToIntent(intent);
     }
 
     public void getItemTopRated(ResultsItemTopRated itemTopRated, Activity activity, Class activityTo) {
         Intent intent = new Intent(activity, activityTo);
-        intent.putExtra(DetailActivity.extraModel, 2);
-        intent.putExtra(DetailActivity.extraMoviesData, itemTopRated);
+        intent.putExtra(DetailsActivity.extraModel, 2);
+        intent.putExtra(DetailsActivity.extraMoviesData, itemTopRated);
         if (view != null)
             view.moveToIntent(intent);
     }
 
     public void getItemUpcoming(ResultsItemUpcoming itemUpcoming, Activity activity, Class activityTo) {
         Intent intent = new Intent(activity, activityTo);
-        intent.putExtra(DetailActivity.extraModel, 3);
-        intent.putExtra(DetailActivity.extraMoviesData, itemUpcoming);
+        intent.putExtra(DetailsActivity.extraModel, 3);
+        intent.putExtra(DetailsActivity.extraMoviesData, itemUpcoming);
         if (view != null)
             view.moveToIntent(intent);
     }

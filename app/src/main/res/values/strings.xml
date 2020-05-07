@@ -65,4 +65,5 @@
     <string name="or">or</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="no_review">Aww Snap.. Looks Like No Reviews Yet</string>
 </resources>
