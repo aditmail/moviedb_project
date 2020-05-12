@@ -57,7 +57,7 @@ public class MainPresenter extends BasePresenter<MainView> {
             public void onResponseReceived(Popular popular) {
                 if (popular != null) {
                     List<ResultsItemPopular> results = popular.getResults();
-                    adapter.addAll(results);
+                    adapter.addAllData(results);
 
                     if (view != null) {
                         view.showListPopular(adapter, position);

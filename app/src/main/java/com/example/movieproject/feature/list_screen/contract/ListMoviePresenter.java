@@ -78,10 +78,10 @@ public class ListMoviePresenter extends BasePresenter<ListMovieView> {
 
                     List<ResultsItemPopular> results = popular.getResults();
                     if (position == 1) {
-                        adapter.addAll(results);
+                        adapter.addAllData(results);
                     } else if (position == 2) {
                         adapter.removeLoadingFooter();
-                        adapter.addAll(results);
+                        adapter.addAllData(results);
                     }
 
                     if (view != null)
