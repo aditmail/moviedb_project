@@ -187,11 +187,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             rvPopularList.setItemAnimator(new DefaultItemAnimator());
             rvPopularList.setPadding(10, 0, 5, 15);
             rvPopularList.addOnItemTouchListener(selectedItem(1));
-
-            //Parse the Data to show in RecyclerView
-            progressBarPopular.setVisibility(View.GONE);
-            rvPopularList.setAdapter(adapter);
+            rvPopularList.setAdapter(adapter); //Parse the Data to show in RecyclerView
         }
+
+        progressBarPopular.setVisibility(View.GONE);
     }
 
     @Override
@@ -202,10 +201,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             rvUpcomingList.setPadding(10, 0, 5, 15);
             rvUpcomingList.addOnItemTouchListener(selectedItem(3));
 
-            progressBarUpcoming.setVisibility(View.GONE);
             rvUpcomingList.setAdapter(adapter);
         }
 
+        progressBarUpcoming.setVisibility(View.GONE);
     }
 
     @Override
@@ -216,9 +215,10 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             rvTopRatedList.setPadding(10, 0, 5, 15);
             rvTopRatedList.addOnItemTouchListener(selectedItem(2));
 
-            progressBarTopR.setVisibility(View.GONE);
             rvTopRatedList.setAdapter(adapter);
         }
+
+        progressBarTopR.setVisibility(View.GONE);
     }
 
     private RecyclerItemClickListener selectedItem(int position) {

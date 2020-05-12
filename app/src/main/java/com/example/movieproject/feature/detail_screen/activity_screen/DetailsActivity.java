@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -21,6 +20,8 @@ import com.example.movieproject.R;
 import com.example.movieproject.base.mvp.MvpActivity;
 import com.example.movieproject.feature.detail_screen.activity_screen.contract.DetailsPresenter;
 import com.example.movieproject.feature.detail_screen.activity_screen.contract.DetailsView;
+import com.example.movieproject.feature.detail_screen.fragment_screen.ReviewFragment;
+import com.example.movieproject.feature.detail_screen.fragment_screen.VideosFragment;
 import com.example.movieproject.models.popular.ResultsItemPopular;
 import com.example.movieproject.models.top_rated.ResultsItemTopRated;
 import com.example.movieproject.models.upcoming.ResultsItemUpcoming;
@@ -40,6 +41,9 @@ import java.util.Locale;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
@@ -54,8 +58,8 @@ public class DetailsActivity extends MvpActivity<DetailsPresenter> implements De
     @BindView(R.id.appbar)
     AppBarLayout appbar;
 
-    /*@BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout mSwipeRefresh;*/
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.nestedScroll)
     NestedScrollView nestedSccroll;
     @BindView(R.id.fabUpward)
@@ -172,9 +176,11 @@ public class DetailsActivity extends MvpActivity<DetailsPresenter> implements De
                 if (scrollRange + verticalOffset == 0) {
                     collapsingToolbarLayout.setTitle(title);
                     isShow = true;
+                    fabUpward.setVisibility(View.VISIBLE);
                 } else if (isShow) {
                     collapsingToolbarLayout.setTitle("");
                     isShow = false;
+                    fabUpward.setVisibility(View.GONE);
                 }
             }
         });
@@ -301,9 +307,14 @@ public class DetailsActivity extends MvpActivity<DetailsPresenter> implements De
                 })
                 .into(imgPosterBackground);
 
-        /*mSwipeRefresh.setOnRefreshListener(() -> {
+        //Refresh Fragment
+        mSwipeRefresh.setOnRefreshListener(() -> {
+            setupViewPager(viewpager_content);
+            tabs_kantong.setupWithViewPager(viewpager_content);
+
             mSwipeRefresh.setRefreshing(false);
-        });*/
+        });
+
     }
 
     @Override

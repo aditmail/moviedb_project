@@ -23,6 +23,6 @@ public class DetailsPresenter extends BasePresenter<DetailsView> {
         adapter.addFragment(new ReviewFragment(), "Reviews");
 
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(0);
+        //viewPager.setCurrentItem(0);
     }
 }

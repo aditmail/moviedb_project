@@ -3,6 +3,7 @@ package com.example.movieproject.feature.main_screen.contract;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.movieproject.adapter.PopularAdapter;
 import com.example.movieproject.adapter.TopRatedAdapter;
@@ -58,8 +59,9 @@ public class MainPresenter extends BasePresenter<MainView> {
                     List<ResultsItemPopular> results = popular.getResults();
                     adapter.addAll(results);
 
-                    if (view != null)
+                    if (view != null) {
                         view.showListPopular(adapter, position);
+                    }
                 }
             }
 
