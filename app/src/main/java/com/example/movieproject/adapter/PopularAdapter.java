@@ -92,7 +92,7 @@ public class PopularAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private static class LoadingViewHolder extends RecyclerView.ViewHolder {
+    public static class LoadingViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.progressBar)
         ProgressBar progressBar;
         @BindView(R.id.linearRetry)

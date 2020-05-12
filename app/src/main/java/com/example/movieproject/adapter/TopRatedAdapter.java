@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.movieproject.R;
+import com.example.movieproject.classes.abstract_interface.IListMovies;
 import com.example.movieproject.models.top_rated.ResultsItemTopRated;
 import com.example.movieproject.utils.PaginationAdapterCallback;
 
@@ -35,7 +36,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TopRatedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TopRatedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements IListMovies.LoadMoreList,
+        IListMovies.AddList<ResultsItemTopRated>,
+        IListMovies.GetItemList<ResultsItemTopRated>,
+        IListMovies.RemoveList<ResultsItemTopRated> {
 
     private Context context;
     private int position;
@@ -96,7 +101,7 @@ public class TopRatedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.btnReload)
         Button btnRetry;
 
-        public LoadingViewHolder(@NonNull View itemView) {
+        private LoadingViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -235,15 +240,17 @@ public class TopRatedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //Adapter Helper -------------------------
     //Adding All Data from API to List..
     //For Many result are.. Added one by one
-    public void addAll(List<ResultsItemTopRated> resultsItemTopRateds) {
+    @Override
+    public void addAllData(List<ResultsItemTopRated> resultsItemTopRateds) {
         for (ResultsItemTopRated results : resultsItemTopRateds) {
-            add(results);
+            addData(results);
         }
     }
 
     //Insert Data One By One to the List
     //Also Notified to adapter if data are inserted
-    public void add(ResultsItemTopRated item) {
+    @Override
+    public void addData(ResultsItemTopRated item) {
         if (item != null) {
             topRatedList.add(item);
             notifyItemInserted(topRatedList.size() - 1);
@@ -251,7 +258,8 @@ public class TopRatedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     //Remove Selected Data
-    public void remove(ResultsItemTopRated resultsItemTopRated) {
+    @Override
+    public void removeData(ResultsItemTopRated resultsItemTopRated) {
         int position = topRatedList.indexOf(resultsItemTopRated);
         if (position > -1) {
             topRatedList.remove(position);
@@ -259,36 +267,41 @@ public class TopRatedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void removeAt(int position) {
+    @Override
+    public void removeDataAt(int position) {
         topRatedList.remove(position);
         notifyItemRemoved(position);
         notifyItemChanged(position, topRatedList.size());
     }
 
     //Get or Add List Data At Position...?
+    @Override
     public ResultsItemTopRated getItem(int position) {
         return topRatedList.get(position);
     }
 
+    @Override
     public List<ResultsItemTopRated> getAllItem() {
         return topRatedList;
     }
 
     //Showing the Loading
     //And adding the data
+    @Override
     public void addLoadingFooter() {
         isLoadingAdded = true; //Showing the Loading Screen
-        add(new ResultsItemTopRated());
+        addData(new ResultsItemTopRated());
     }
 
     //Hide the Loading Screen
+    @Override
     public void removeLoadingFooter() {
         isLoadingAdded = false; //Hide the Loading Screen
 
         int position = topRatedList.size() - 1;
         ResultsItemTopRated item = getItem(position);
 
-        if(item != null){
+        if (item != null) {
             topRatedList.remove(position);
             notifyItemRemoved(position);
         }

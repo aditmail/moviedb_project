@@ -36,7 +36,7 @@ public class MainPresenter extends BasePresenter<MainView> {
             public void onResponseReceived(TopRated topRated) {
                 if (topRated != null) {
                     List<ResultsItemTopRated> results = topRated.getResults();
-                    adapter.addAll(results);
+                    adapter.addAllData(results);
 
                     if (view != null)
                         view.showListTopRated(adapter, position);
