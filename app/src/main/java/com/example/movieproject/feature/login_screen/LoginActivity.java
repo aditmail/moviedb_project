@@ -18,7 +18,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import butterknife.BindView;
 
-public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginView, View.OnClickListener {
+public class LoginActivity extends MvpActivity<LoginPresenter>
+        implements LoginView,
+        View.OnClickListener,
+        InputValidation {
 
     @BindView(R.id.etPhoneNumber)
     EditText etPhoneNumber;
@@ -69,26 +72,22 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
     @Override
     public void setErrorFocused(int widget) {
         if (widget == 1) {
-            tilPhone.setError(getString(R.string.msg_enter_phone_num));
-            etPhoneNumber.requestFocus();
+            inputError(tilPhone, getString(R.string.msg_enter_phone_num), etPhoneNumber);
             return;
         } else if (widget == 2) {
-            tilPhone.setError(getString(R.string.msg_phone_range));
-            etPhoneNumber.requestFocus();
+            inputError(tilPhone, getString(R.string.msg_phone_range), etPhoneNumber);
             return;
         } else if (widget == 3) {
-            tilPhone.setError(getString(R.string.msg_phone_valid_number));
-            etPhoneNumber.requestFocus();
+            inputError(tilPhone, getString(R.string.msg_phone_valid_number), etPhoneNumber);
             return;
         } else {
-            tilPhone.setError(null);
+            inputErrorNull(tilPhone);
         }
 
         if (widget == 4) {
-            tilPassword.setError(getString(R.string.msg_enter_password));
-            etPassword.requestFocus();
+            inputError(tilPassword, getString(R.string.msg_enter_password), etPassword);
         } else {
-            tilPassword.setError(null);
+            inputErrorNull(tilPassword);
         }
     }
 
@@ -118,4 +117,21 @@ public class LoginActivity extends MvpActivity<LoginPresenter> implements LoginV
             presenter.goToIntent(activity, MainActivity.class, true);
         }
     }
+
+    @Override
+    public void inputError(TextInputLayout inputLayout, String errorMsg, EditText editText) {
+        inputLayout.setError(errorMsg);
+        editText.requestFocus();
+    }
+
+    @Override
+    public void inputErrorNull(TextInputLayout inputLayout) {
+        inputLayout.setError(null);
+    }
+}
+
+interface InputValidation {
+    void inputError(TextInputLayout inputLayout, String errorMsg, EditText editText);
+
+    void inputErrorNull(TextInputLayout inputLayout);
 }
