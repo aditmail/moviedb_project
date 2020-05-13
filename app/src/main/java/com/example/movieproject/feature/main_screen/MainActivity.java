@@ -184,11 +184,7 @@ public class MainActivity extends MvpActivity<MainPresenter>
     @Override
     public void showListPopular(PopularAdapter adapter, int position) {
         if (position == 1) {
-            rvPopularList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            rvPopularList.setItemAnimator(new DefaultItemAnimator());
-            rvPopularList.setPadding(10, 0, 5, 15);
-            rvPopularList.addOnItemTouchListener(selectedItem(rvPopularList));
-            rvPopularList.setAdapter(adapter); //Parse the Data to show in RecyclerView
+            recyclerViewSetting(rvPopularList, adapter);
         }
 
         progressBarPopular.setVisibility(View.GONE);
@@ -197,12 +193,7 @@ public class MainActivity extends MvpActivity<MainPresenter>
     @Override
     public void showListUpcoming(UpcomingAdapter adapter, int position) {
         if (position == 1) {
-            rvUpcomingList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            rvUpcomingList.setItemAnimator(new DefaultItemAnimator());
-            rvUpcomingList.setPadding(10, 0, 5, 15);
-            rvUpcomingList.addOnItemTouchListener(selectedItem(rvUpcomingList));
-
-            rvUpcomingList.setAdapter(adapter);
+            recyclerViewSetting(rvUpcomingList, adapter);
         }
 
         progressBarUpcoming.setVisibility(View.GONE);
@@ -211,12 +202,7 @@ public class MainActivity extends MvpActivity<MainPresenter>
     @Override
     public void showListTopRated(TopRatedAdapter adapter, int position) {
         if (position == 1) {
-            rvTopRatedList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            rvTopRatedList.setItemAnimator(new DefaultItemAnimator());
-            rvTopRatedList.setPadding(10, 0, 5, 15);
-            rvTopRatedList.addOnItemTouchListener(selectedItem(rvTopRatedList));
-
-            rvTopRatedList.setAdapter(adapter);
+            recyclerViewSetting(rvTopRatedList, adapter);
         }
 
         progressBarTopR.setVisibility(View.GONE);
@@ -276,6 +262,16 @@ public class MainActivity extends MvpActivity<MainPresenter>
     public void errorView(TextView textView, ProgressBar progressBar) {
         textView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void recyclerViewSetting(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setPadding(10, 0, 5, 15);
+        recyclerView.addOnItemTouchListener(selectedItem(recyclerView));
+
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

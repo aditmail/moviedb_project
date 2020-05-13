@@ -9,6 +9,8 @@ import com.example.movieproject.adapter.PopularAdapter;
 import com.example.movieproject.adapter.TopRatedAdapter;
 import com.example.movieproject.adapter.UpcomingAdapter;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public interface MainView {
     void showLoading();
 
@@ -25,4 +27,6 @@ public interface MainView {
     void moveToIntent(Intent intent);
 
     void errorView(TextView textView, ProgressBar progressBar);
+
+    void recyclerViewSetting(RecyclerView recyclerView, RecyclerView.Adapter adapter);
 }
