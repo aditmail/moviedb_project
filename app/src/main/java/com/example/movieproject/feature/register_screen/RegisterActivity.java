@@ -18,7 +18,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import butterknife.BindView;
 
-public class RegisterActivity extends MvpActivity<RegisterPresenter> implements RegisterView, View.OnClickListener {
+public class RegisterActivity extends MvpActivity<RegisterPresenter>
+        implements RegisterView, View.OnClickListener {
 
     @BindView(R.id.etPhoneNumber)
     EditText etPhoneNumber;
@@ -63,11 +64,11 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnConfirm) {
-            String fullName = etFullName.getText().toString().trim();
-            String phone = etPhoneNumber.getText().toString().trim();
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-            String confirmPassword = etConfirmPassword.getText().toString().trim();
+            String fullName = getInputText(etFullName);
+            String phone = getInputText(etPhoneNumber);
+            String email = getInputText(etEmail);
+            String password = getInputText(etPassword);
+            String confirmPassword = getInputText(etConfirmPassword);
 
             registerForm = new RegisterForm("", phone, fullName,
                     email, password, confirmPassword);
@@ -79,54 +80,46 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
     @Override
     public void setErrorFocused(int widget) {
         if (widget == 1) {
-            tilPhone.setError(getString(R.string.msg_enter_phone_num));
-            etPhoneNumber.requestFocus();
+            inputError(tilPhone, getString(R.string.msg_enter_phone_num), etPhoneNumber);
             return;
         } else if (widget == 2) {
-            tilPhone.setError(getString(R.string.msg_phone_range));
-            etPhoneNumber.requestFocus();
+            inputError(tilPhone, getString(R.string.msg_phone_range), etPhoneNumber);
             return;
         } else if (widget == 3) {
-            tilPhone.setError(getString(R.string.msg_phone_valid_number));
-            etPhoneNumber.requestFocus();
+            inputError(tilPhone, getString(R.string.msg_phone_valid_number), etPhoneNumber);
             return;
         } else {
-            tilPhone.setError(null);
+            inputErrorNull(tilPhone);
         }
 
         if (widget == 4) {
-            tilName.setError(getString(R.string.msg_enter_name));
-            etFullName.requestFocus();
+            inputError(tilName, getString(R.string.msg_enter_name), etFullName);
             return;
         } else {
-            tilName.setError(null);
+            inputErrorNull(tilName);
         }
 
         if (widget == 5) {
-            tilEmail.setError(getString(R.string.msg_enter_email));
-            etEmail.requestFocus();
+            inputError(tilEmail, getString(R.string.msg_enter_email), etEmail);
             return;
         } else {
-            tilEmail.setError(null);
+            inputErrorNull(tilEmail);
         }
 
         if (widget == 6) {
-            tilPassword.setError(getString(R.string.msg_enter_password));
-            etPassword.requestFocus();
+            inputError(tilPassword, getString(R.string.msg_enter_password), etPassword);
             return;
         } else if (widget == 7) {
-            tilPassword.setError(getString(R.string.msg_minimum_password));
-            etPassword.requestFocus();
+            inputError(tilPassword, getString(R.string.msg_minimum_password), etPassword);
             return;
         } else {
-            tilPassword.setError(null);
+            inputErrorNull(tilPassword);
         }
 
         if (widget == 8) {
-            tilConfirmPassword.setError(getString(R.string.msg_confirm_password));
-            etConfirmPassword.requestFocus();
+            inputError(tilConfirmPassword, getString(R.string.msg_confirm_password), etConfirmPassword);
         } else {
-            tilConfirmPassword.setError(null);
+            inputErrorNull(tilConfirmPassword);
         }
     }
 
@@ -171,5 +164,21 @@ public class RegisterActivity extends MvpActivity<RegisterPresenter> implements 
         }
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void inputError(TextInputLayout inputLayout, String errorMsg, EditText editText) {
+        inputLayout.setError(errorMsg);
+        editText.requestFocus();
+    }
+
+    @Override
+    public void inputErrorNull(TextInputLayout inputLayout) {
+        inputLayout.setError(null);
+    }
+
+    @Override
+    public String getInputText(EditText editText) {
+        return editText.getText().toString().trim();
     }
 }
