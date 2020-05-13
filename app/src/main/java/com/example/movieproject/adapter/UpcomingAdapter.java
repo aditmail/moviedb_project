@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.movieproject.R;
+import com.example.movieproject.classes.abstract_interface.IListMovies;
 import com.example.movieproject.models.upcoming.ResultsItemUpcoming;
 import com.example.movieproject.utils.PaginationAdapterCallback;
 
@@ -35,7 +36,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UpcomingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class UpcomingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements IListMovies.LoadMoreList,
+        IListMovies.AddList<ResultsItemUpcoming>,
+        IListMovies.GetItemList<ResultsItemUpcoming>,
+        IListMovies.RemoveList<ResultsItemUpcoming> {
 
     private Context context;
     private int position;
@@ -95,7 +100,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.btnReload)
         Button btnRetry;
 
-        public LoadingViewHolder(@NonNull View itemView) {
+        private LoadingViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -233,15 +238,17 @@ public class UpcomingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //Adapter Helper -------------------------------------
     //Adding All Data from API to List..
     //For Many result are.. Added one by one
-    public void addAll(List<ResultsItemUpcoming> resultsItemUpcomings) {
+    @Override
+    public void addAllData(List<ResultsItemUpcoming> resultsItemUpcomings) {
         for (ResultsItemUpcoming results : resultsItemUpcomings) {
-            add(results);
+            addData(results);
         }
     }
 
     //Insert Data One By One to the List
     //Also Notified to adapter if data are inserted
-    public void add(ResultsItemUpcoming item) {
+    @Override
+    public void addData(ResultsItemUpcoming item) {
         if (item != null) {
             upcomingList.add(item);
             notifyItemInserted(upcomingList.size() - 1);
@@ -249,7 +256,8 @@ public class UpcomingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     //Remove Selected Data
-    public void remove(ResultsItemUpcoming resultsItemUpcoming) {
+    @Override
+    public void removeData(ResultsItemUpcoming resultsItemUpcoming) {
         int position = upcomingList.indexOf(resultsItemUpcoming);
         if (position > -1) {
             upcomingList.remove(position);
@@ -257,23 +265,34 @@ public class UpcomingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    @Override
+    public void removeDataAt(int position) {
+        upcomingList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemChanged(position, upcomingList.size());
+    }
+
     //Get or Add List Data At Position...?
+    @Override
     public ResultsItemUpcoming getItem(int position) {
         return upcomingList.get(position);
     }
 
+    @Override
     public List<ResultsItemUpcoming> getAllItem() {
         return upcomingList;
     }
 
     //Showing the Loading
     //And adding the data
+    @Override
     public void addLoadingFooter() {
         isLoadingAdded = true; //Showing the Loading Screen
-        add(new ResultsItemUpcoming());
+        addData(new ResultsItemUpcoming());
     }
 
     //Hide the Loading Screen
+    @Override
     public void removeLoadingFooter() {
         isLoadingAdded = false; //Hide the Loading Screen
 

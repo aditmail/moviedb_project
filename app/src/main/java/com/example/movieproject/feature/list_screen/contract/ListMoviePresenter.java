@@ -120,10 +120,10 @@ public class ListMoviePresenter extends BasePresenter<ListMovieView> {
                     List<ResultsItemUpcoming> results = upcoming.getResults();
 
                     if (position == 1) {
-                        adapter.addAll(results);
+                        adapter.addAllData(results);
                     } else if (position == 2) {
                         adapter.removeLoadingFooter();
-                        adapter.addAll(results);
+                        adapter.addAllData(results);
                     }
                     if (view != null)
                         view.showListUpcoming(upcoming, adapter, position);

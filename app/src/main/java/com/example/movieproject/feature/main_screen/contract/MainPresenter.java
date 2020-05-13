@@ -79,7 +79,7 @@ public class MainPresenter extends BasePresenter<MainView> {
             public void onResponseReceived(Upcoming upcoming) {
                 if (upcoming != null) {
                     List<ResultsItemUpcoming> results = upcoming.getResults();
-                    adapter.addAll(results);
+                    adapter.addAllData(results);
 
                     if (view != null)
                         view.showListUpcoming(adapter, position);
