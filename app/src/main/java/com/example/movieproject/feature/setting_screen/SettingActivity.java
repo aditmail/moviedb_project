@@ -9,7 +9,6 @@ import android.widget.EditText;
 
 import com.example.movieproject.R;
 import com.example.movieproject.base.mvp.MvpActivity;
-import com.example.movieproject.feature.login_screen.LoginActivity;
 import com.example.movieproject.feature.setting_screen.contract.SettingPresenter;
 import com.example.movieproject.feature.setting_screen.contract.SettingView;
 import com.example.movieproject.utils.PreferencesManager;
@@ -65,6 +64,10 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
             String phone = user.get(PreferencesManager.KEY_NO_HP);
             String email = user.get(PreferencesManager.KEY_EMAIL);
 
+            setTextData(etFullName, username);
+            setTextData(etPhoneNumber, phone);
+            setTextData(etEmail, email);
+
             etFullName.setText(username);
             etPhoneNumber.setText(phone);
             etEmail.setText(email);
@@ -92,5 +95,10 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
         }
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void setTextData(EditText editText, String string) {
+        editText.setText(string);
     }
 }
