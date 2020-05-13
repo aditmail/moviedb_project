@@ -19,9 +19,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import butterknife.BindView;
 
 public class LoginActivity extends MvpActivity<LoginPresenter>
-        implements LoginView,
-        View.OnClickListener,
-        InputValidation {
+        implements LoginView, View.OnClickListener {
 
     @BindView(R.id.etPhoneNumber)
     EditText etPhoneNumber;
@@ -128,10 +126,4 @@ public class LoginActivity extends MvpActivity<LoginPresenter>
     public void inputErrorNull(TextInputLayout inputLayout) {
         inputLayout.setError(null);
     }
-}
-
-interface InputValidation {
-    void inputError(TextInputLayout inputLayout, String errorMsg, EditText editText);
-
-    void inputErrorNull(TextInputLayout inputLayout);
 }
