@@ -1,6 +1,9 @@
 package com.example.movieproject.feature.main_screen.contract;
 
 import android.content.Intent;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.movieproject.adapter.PopularAdapter;
 import com.example.movieproject.adapter.TopRatedAdapter;
@@ -20,4 +23,6 @@ public interface MainView {
     void showListUpcoming(UpcomingAdapter adapter, int position);
 
     void moveToIntent(Intent intent);
+
+    void errorView(TextView textView, ProgressBar progressBar);
 }

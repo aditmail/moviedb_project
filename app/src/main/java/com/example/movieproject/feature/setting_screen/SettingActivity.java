@@ -67,10 +67,6 @@ public class SettingActivity extends MvpActivity<SettingPresenter> implements Se
             setTextData(etFullName, username);
             setTextData(etPhoneNumber, phone);
             setTextData(etEmail, email);
-
-            etFullName.setText(username);
-            etPhoneNumber.setText(phone);
-            etEmail.setText(email);
         }
     }
 

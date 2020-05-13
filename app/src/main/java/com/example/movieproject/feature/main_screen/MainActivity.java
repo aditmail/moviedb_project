@@ -31,7 +31,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
-public class MainActivity extends MvpActivity<MainPresenter> implements MainView, View.OnClickListener, PaginationAdapterCallback {
+public class MainActivity extends MvpActivity<MainPresenter>
+        implements MainView, View.OnClickListener, PaginationAdapterCallback {
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefresh;
@@ -186,7 +187,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             rvPopularList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             rvPopularList.setItemAnimator(new DefaultItemAnimator());
             rvPopularList.setPadding(10, 0, 5, 15);
-            rvPopularList.addOnItemTouchListener(selectedItem(1));
+            rvPopularList.addOnItemTouchListener(selectedItem(rvPopularList));
             rvPopularList.setAdapter(adapter); //Parse the Data to show in RecyclerView
         }
 
@@ -199,7 +200,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             rvUpcomingList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             rvUpcomingList.setItemAnimator(new DefaultItemAnimator());
             rvUpcomingList.setPadding(10, 0, 5, 15);
-            rvUpcomingList.addOnItemTouchListener(selectedItem(3));
+            rvUpcomingList.addOnItemTouchListener(selectedItem(rvUpcomingList));
 
             rvUpcomingList.setAdapter(adapter);
         }
@@ -213,7 +214,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             rvTopRatedList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             rvTopRatedList.setItemAnimator(new DefaultItemAnimator());
             rvTopRatedList.setPadding(10, 0, 5, 15);
-            rvTopRatedList.addOnItemTouchListener(selectedItem(2));
+            rvTopRatedList.addOnItemTouchListener(selectedItem(rvTopRatedList));
 
             rvTopRatedList.setAdapter(adapter);
         }
@@ -221,58 +222,60 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
         progressBarTopR.setVisibility(View.GONE);
     }
 
-    private RecyclerItemClickListener selectedItem(int position) {
-        RecyclerItemClickListener listener = null;
+    private RecyclerItemClickListener selectedItem(RecyclerView recyclerView) {
+        return new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (recyclerView == rvTopRatedList) {
+                    presenter.getItemTopRated(adapterTopRated.getItem(position),
+                            MainActivity.this, DetailsActivity.class);
+                } else if (recyclerView == rvPopularList) {
+                    presenter.getItemPopular(adapterPopular.getItem(position),
+                            MainActivity.this, DetailsActivity.class);
+                } else if (recyclerView == rvUpcomingList) {
+                    presenter.getItemUpcoming(adapterUpcoming.getItem(position),
+                            MainActivity.this, DetailsActivity.class);
+                }
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        });
+    }
+
+    @Override
+    public void showMessage(String message, int position) {
         switch (position) {
-            case 1: //For Popular Movie
-                listener = new RecyclerItemClickListener(this, rvPopularList, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        presenter.getItemPopular(adapterPopular.getItem(position),
-                                MainActivity.this, DetailsActivity.class);
-                    }
-
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-
-                    }
-                });
+            case 1: //Error Handling for Popular Movie List
+                errorView(tvErrorPopular, progressBarPopular);
                 break;
 
-            case 2: //For TopRated Movie
-                listener = new RecyclerItemClickListener(this, rvTopRatedList, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        presenter.getItemTopRated(adapterTopRated.getItem(position),
-                                MainActivity.this, DetailsActivity.class);
-                    }
-
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-                    }
-                });
+            case 2: //Error Handling for Top Rated Movie List
+                errorView(tvErrorTopR, progressBarTopR);
                 break;
-            case 3: //For Upcoming Movie
-                listener = new RecyclerItemClickListener(this, rvUpcomingList, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        presenter.getItemUpcoming(adapterUpcoming.getItem(position),
-                                MainActivity.this, DetailsActivity.class);
-                    }
 
-                    @Override
-                    public void onLongItemClick(View view, int position) {
-                    }
-                });
+            case 3: //Error Handling for Upcoming Movie List
+                errorView(tvErrorUpcoming, progressBarUpcoming);
+                break;
+
+            default:
                 break;
         }
 
-        return listener;
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void moveToIntent(Intent intent) {
         startActivity(intent);
+    }
+
+    @Override
+    public void errorView(TextView textView, ProgressBar progressBar) {
+        textView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -283,31 +286,6 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     @Override
     public void hideLoading() {
         progressDialog.hideProgress();
-    }
-
-    @Override
-    public void showMessage(String message, int position) {
-        switch (position) {
-            case 1: //Error Handling for Popular Movie List
-                tvErrorPopular.setVisibility(View.VISIBLE);
-                progressBarPopular.setVisibility(View.GONE);
-                break;
-
-            case 2: //Error Handling for Top Rated Movie List
-                tvErrorTopR.setVisibility(View.VISIBLE);
-                progressBarTopR.setVisibility(View.GONE);
-                break;
-
-            case 3: //Error Handling for Upcoming Movie List
-                tvErrorUpcoming.setVisibility(View.VISIBLE);
-                progressBarUpcoming.setVisibility(View.GONE);
-                break;
-
-            default:
-                break;
-        }
-
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
