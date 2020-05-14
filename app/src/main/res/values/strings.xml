@@ -66,4 +66,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="no_review">Aww Snap.. Looks Like No Reviews Yet</string>
+    <string name="end_page">End of Page</string>
 </resources>

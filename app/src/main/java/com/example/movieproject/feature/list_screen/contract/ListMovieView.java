@@ -13,6 +13,8 @@ import com.example.movieproject.models.upcoming.Upcoming;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public interface ListMovieView {
 
     void showLoading();
@@ -28,4 +30,10 @@ public interface ListMovieView {
     void showListUpcoming(Upcoming upcoming, UpcomingAdapter adapter, int position);
 
     void moveToIntent(Intent intent);
+
+    void showPageOf(String string);
+
+    void setTitleToolbar(String string);
+
+    void setClearData(RecyclerView.Adapter adapter);
 }

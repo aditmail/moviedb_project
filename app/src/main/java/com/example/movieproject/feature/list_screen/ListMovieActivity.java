@@ -33,7 +33,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
-public class ListMovieActivity extends MvpActivity<ListMoviePresenter> implements ListMovieView, PaginationAdapterCallback {
+public class ListMovieActivity extends MvpActivity<ListMoviePresenter>
+        implements ListMovieView, PaginationAdapterCallback {
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefresh;
@@ -86,47 +87,33 @@ public class ListMovieActivity extends MvpActivity<ListMoviePresenter> implement
             listType = getIntent.getIntExtra(IntentType, 1);
             switch (listType) {
                 case 1:
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setTitle(R.string.popular);
-                    }
-
+                    setTitleToolbar(getString(R.string.popular));
                     adapterPopular = new PopularAdapter(this, 2);
-                    mSwipeRefresh.setOnRefreshListener(() -> {
-                        currentPage = 1;
-                        callAPIMovies(listType);
-                        mSwipeRefresh.setRefreshing(false);
-                    });
                     break;
 
                 case 2:
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setTitle(R.string.top_rated_title);
-                    }
-
+                    setTitleToolbar(getString(R.string.top_rated_title));
                     adapterTopRated = new TopRatedAdapter(this, 2);
-                    mSwipeRefresh.setOnRefreshListener(() -> {
-                        currentPage = 1;
-                        callAPIMovies(listType);
-                        mSwipeRefresh.setRefreshing(false);
-                    });
                     break;
 
                 case 3:
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setTitle(R.string.upcoming_movie_title);
-                    }
-
+                    setTitleToolbar(getString(R.string.upcoming_movie_title));
                     adapterUpcoming = new UpcomingAdapter(this, 2);
-                    mSwipeRefresh.setOnRefreshListener(() -> {
-                        currentPage = 1;
-                        callAPIMovies(listType);
-                        mSwipeRefresh.setRefreshing(false);
-                    });
                     break;
 
                 default:
                     break;
             }
+
+            //Refresh Button
+            mSwipeRefresh.setOnRefreshListener(() -> {
+                currentPage = 1;
+                callAPIMovies(listType);
+                mSwipeRefresh.setRefreshing(false);
+            });
+
+            //RecyclerView on Click
+            rvMovieList.addOnItemTouchListener(selectedItem(listType));
 
             //Call API
             callAPIMovies(listType);
@@ -140,21 +127,15 @@ public class ListMovieActivity extends MvpActivity<ListMoviePresenter> implement
             switch (type) {
                 case 1:
                     //Clearing All Data First
-                    adapterPopular.getAllItem().clear();
-                    adapterPopular.notifyDataSetChanged();
-
+                    setClearData(adapterPopular);
                     presenter.callAPIPopular(1, currentPage, adapterPopular);
                     break;
                 case 2:
-                    adapterTopRated.getAllItem().clear();
-                    adapterTopRated.notifyDataSetChanged();
-
+                    setClearData(adapterTopRated);
                     presenter.callAPITopRated(1, currentPage, adapterTopRated);
                     break;
                 case 3:
-                    adapterUpcoming.getAllItem().clear();
-                    adapterUpcoming.notifyDataSetChanged();
-
+                    setClearData(adapterUpcoming);
                     presenter.callAPIUpcoming(1, currentPage, adapterUpcoming);
                     break;
                 default:
@@ -185,48 +166,20 @@ public class ListMovieActivity extends MvpActivity<ListMoviePresenter> implement
     @Override
     public void showListTopRated(TopRated topRated, TopRatedAdapter adapter, int position) {
         if (position == 1) {
-
-            //NEW MODEL
             rvMovieList.setAdapter(adapter);
             TOTAL_PAGES = topRated.getTotalPages();
 
-            rvMovieList.addOnItemTouchListener(selectedItem(2));
             loadMoreRecycler();
-
-            /*
-            adapterTopRated.addAll(items);
-            rvMovieList.setLayoutManager(staggeredGridLayoutManager);
-            rvMovieList.hasFixedSize();
-
-            //rvMovieList.setLayoutManager(gridLayoutManager);
-            rvMovieList.setItemAnimator(new DefaultItemAnimator());
-            rvMovieList.setPadding(10, 0, 5, 15);
-
-            //Parse the Data to show in RecyclerView
-            rvMovieList.setAdapter(adapterTopRated);*/
-
-            //Recycler OnScrollListener
-        } else if (position == 2) {
+        } else if (position == 2) { //Recycler OnScrollListener
             if (currentPage == TOTAL_PAGES) {
                 isLastPage = true;
                 adapter.removeLoadingFooter();
             } else {
                 adapter.addLoadingFooter();
             }
-
-            /*adapterTopRated.addAll(items);
-            adapterTopRated.notifyItemRangeInserted(adapterTopRated.getItemCount(), items.size() - 1);
-
-            if (currentPage == TOTAL_PAGES) {
-                isLastPage = true;
-                adapterTopRated.removeLoadingFooter();
-            } else {
-                //Add Data to Adapter List
-                adapterTopRated.addLoadingFooter();
-            }*/
         }
 
-        tvPageOf.setText(getString(R.string.page_of, String.valueOf(currentPage),
+        showPageOf(getString(R.string.page_of, String.valueOf(currentPage),
                 String.valueOf(TOTAL_PAGES)));
     }
 
@@ -236,145 +189,49 @@ public class ListMovieActivity extends MvpActivity<ListMoviePresenter> implement
             //NEW MODELS
             rvMovieList.setAdapter(adapter);
             TOTAL_PAGES = popular.getTotalPages(); //Get Total Pages
+            loadMoreRecycler();
 
-            rvMovieList.addOnItemTouchListener(selectedItem(1));
-            loadMoreRecycler(); //Recycler OnScrollListener
-
-            //Add Data to Popular Adapter
-            /*adapterPopular.addAll(items);
-
-            //Setting the RecyclerView
-            rvMovieList.setLayoutManager(staggeredGridLayoutManager);
-            //rvMovieList.setLayoutManager(gridLayoutManager);
-
-            rvMovieList.hasFixedSize();
-            rvMovieList.setItemAnimator(new DefaultItemAnimator());
-            rvMovieList.setPadding(10, 0, 5, 15);
-
-            //Parse the Data to show in RecyclerView
-            rvMovieList.setAdapter(adapterPopular);*/
-
-        } else if (position == 2) {
-
-            //NEW MODEL
+        } else if (position == 2) { //Recycler OnScrollListener
             if (currentPage == TOTAL_PAGES) {
                 isLastPage = true;
                 adapter.removeLoadingFooter();
             } else {
                 adapter.addLoadingFooter();
             }
-
-            //OLD MODEL
-            /*if (items != null) {
-                adapterPopular.addAll(items);
-                adapterPopular.notifyItemRangeInserted(adapterPopular.getItemCount(), items.size() - 1);
-
-                if (currentPage == TOTAL_PAGES) {
-                    isLastPage = true;
-                    adapterPopular.removeLoadingFooter();
-                } else {
-                    //Add Data to Adapter List
-                    adapterPopular.addLoadingFooter();
-                }
-            } else {
-                adapterPopular.showRetry(true, "");
-            }*/
         }
 
-        tvPageOf.setText(getString(R.string.page_of, String.valueOf(currentPage),
+        showPageOf(getString(R.string.page_of, String.valueOf(currentPage),
                 String.valueOf(TOTAL_PAGES)));
     }
 
     @Override
     public void showListUpcoming(Upcoming upcoming, UpcomingAdapter adapter, int position) {
         if (position == 1) {
-            //NEW MODEL
             rvMovieList.setAdapter(adapter);
             TOTAL_PAGES = upcoming.getTotalPages();
-
-            rvMovieList.addOnItemTouchListener(selectedItem(3));
             loadMoreRecycler();
 
-            //Add Data to Popular Adapter
-            /*adapterUpcoming.addAll(items);
-
-            //Setting the RecyclerView
-            rvMovieList.setLayoutManager(staggeredGridLayoutManager);
-            //rvMovieList.setLayoutManager(gridLayoutManager);
-
-            rvMovieList.hasFixedSize();
-            rvMovieList.setItemAnimator(new DefaultItemAnimator());
-            rvMovieList.setPadding(10, 0, 5, 15);
-
-            //Parse the Data to show in RecyclerView
-            rvMovieList.setAdapter(adapterUpcoming);*/
-
-            //Recycler OnScrollListener
-        } else if (position == 2) {
-            //NEW MODEL
+        } else if (position == 2) { //Recycler OnScrollListener
             if (currentPage == TOTAL_PAGES) {
                 isLastPage = true;
                 adapter.removeLoadingFooter();
             } else {
                 adapter.addLoadingFooter();
             }
-
-            //OLD MODEL
-            /*adapterUpcoming.addAll(items);
-            if (currentPage == TOTAL_PAGES) {
-                isLastPage = true;
-                adapterUpcoming.removeLoadingFooter();
-            } else {
-                //Add Data to Adapter List
-                adapterUpcoming.addLoadingFooter();
-            }*/
         }
 
-        tvPageOf.setText(getString(R.string.page_of, String.valueOf(currentPage),
+        showPageOf(getString(R.string.page_of, String.valueOf(currentPage),
                 String.valueOf(TOTAL_PAGES)));
     }
 
     private void loadMoreRecycler() {
-        /*scrollListener = new EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
-
-            @Override
-            public void onLoadMore(int page, int totalItemCount, RecyclerView view) {
-                currentPage = page;
-                Log.d("LOAD", "Page: " + page + "\n" + "CurrentPage: " + currentPage + "\n" + "Total: " + TOTAL_PAGES);
-
-                //if (!isLastPage) {
-                //if (isBottomPage) {
-
-                //if (!view.canScrollVertically(1)) {
-
-                //adapterPopular.addLoadingFooter();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (position == 1) {
-                            adapterPopular.removeLoadingFooter();
-                            presenter.callAPIPopular(2, currentPage);
-                        } else if (position == 2) {
-                            adapterTopRated.removeLoadingFooter();
-                            presenter.callAPITopRated(2, currentPage);
-                        } else if (position == 3) {
-                            adapterUpcoming.removeLoadingFooter();
-                            presenter.callAPIUpcoming(2, currentPage);
-                        }
-                    }
-                }, 3000);
-                // }
-                //}
-            }
-            rvMovieList.addOnScrollListener(scrollListener);
-            */
-
         rvMovieList.addOnScrollListener(new EndlessScrollAnotherListener(staggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemCount, RecyclerView view) {
                 currentPage = page;
-                Log.d("LOAD", "Page: " + page + "\n" + "CurrentPage: " + currentPage + "\n" + "Total: " + TOTAL_PAGES);
                 loadNextData(listType);
+
+                Log.d("LOAD", "Page: " + page + "\n" + "CurrentPage: " + currentPage + "\n" + "Total: " + TOTAL_PAGES);
             }
         });
     }
@@ -414,26 +271,48 @@ public class ListMovieActivity extends MvpActivity<ListMoviePresenter> implement
 
     private void loadNextData(int position) {
         if (!isLastPage) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (position == 1) {
-                        presenter.callAPIPopular(2, currentPage, adapterPopular);
-                    } else if (position == 2) {
-                        presenter.callAPITopRated(2, currentPage, adapterTopRated);
-                    } else if (position == 3) {
-                        presenter.callAPIUpcoming(2, currentPage, adapterUpcoming);
-                    }
+            new Handler().postDelayed(() -> {
+                if (position == 1) {
+                    presenter.callAPIPopular(2, currentPage, adapterPopular);
+                } else if (position == 2) {
+                    presenter.callAPITopRated(2, currentPage, adapterTopRated);
+                } else if (position == 3) {
+                    presenter.callAPIUpcoming(2, currentPage, adapterUpcoming);
                 }
             }, 3000);
         } else {
             //Last PAGE OF List
+            showMessage(getString(R.string.end_page));
         }
     }
 
     @Override
     public void moveToIntent(Intent intent) {
         startActivity(intent);
+    }
+
+    @Override
+    public void showPageOf(String string) {
+        tvPageOf.setText(string);
+    }
+
+    @Override
+    public void setTitleToolbar(String string) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(string);
+        }
+    }
+
+    @Override
+    public void setClearData(RecyclerView.Adapter adapter) {
+        if (adapter == adapterPopular) {
+            adapterPopular.getAllItem().clear();
+        } else if (adapter == adapterTopRated) {
+            adapterTopRated.getAllItem().clear();
+        } else if (adapter == adapterUpcoming) {
+            adapterUpcoming.getAllItem().clear();
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
