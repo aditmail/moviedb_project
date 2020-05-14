@@ -269,8 +269,10 @@ public class MainActivity extends MvpActivity<MainPresenter>
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setPadding(10, 0, 5, 15);
-        recyclerView.addOnItemTouchListener(selectedItem(recyclerView));
 
+        if (recyclerView.getAdapter() == null) {
+            recyclerView.addOnItemTouchListener(selectedItem(recyclerView));
+        }
         recyclerView.setAdapter(adapter);
     }
 

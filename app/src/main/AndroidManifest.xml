@@ -48,7 +48,7 @@
         <activity
             android:name=".feature.detail_screen.activity_screen.DetailsActivity"
             android:configChanges="orientation"
-            android:parentActivityName=".feature.main_screen.MainActivity"
+            android:parentActivityName=".feature.list_screen.ListMovieActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
@@ -62,7 +62,7 @@
         <activity
             android:name=".feature.main_screen.MainActivity"
             android:configChanges="orientation"
-            android:launchMode="standard"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
     </application>

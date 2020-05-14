@@ -126,8 +126,7 @@ public class ListMovieActivity extends MvpActivity<ListMoviePresenter>
             linearNoInternet.setVisibility(View.GONE);
             switch (type) {
                 case 1:
-                    //Clearing All Data First
-                    setClearData(adapterPopular);
+                    setClearData(adapterPopular); //Clearing All Data First
                     presenter.callAPIPopular(1, currentPage, adapterPopular);
                     break;
                 case 2:
